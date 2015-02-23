@@ -1,15 +1,12 @@
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.awt.*;
-public class Logistic {
+import java.sql.*;
+import java.awt.event.*;
+public class Logistic implements ActionListener {
 	JFrame f;
 	JLabel lb1,lb2,lb3,lb4,lb5,lb6,lb7,lb8;
 	JTextField text1,text2,text3,text4,text5,text6,text7,text8;
@@ -91,8 +88,88 @@ public class Logistic {
 		modelo.addColumn("Depto");
 		modelo.addColumn("Existencia");
 		modelo.addColumn("Precio");
+		llena();
+		btn1.addActionListener(this);
+		btn2.addActionListener(this);
+		btn3.addActionListener(this);
+		btn4.addActionListener(this);
 		f.setVisible(true);
 		f.setSize(650,750);
+	}
+	public void limpiar(){
+			text1.setText("");
+			text2.setText("");
+			text3.setText("");
+			text4.setText("");
+			text5.setText("");
+			text6.setText("");
+			text7.setText("");
+	}	
+	public void llena(){
+			
+			modelo.removeRow(0);
+			//modelo.removeRow(0); table.repaint();
+			//table.setModel(modelo);
+			//modelo.fireTableDataChanged();
+			try{ Class.forName("com.mysql.jdbc.Driver");
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+			Statement instruccion = conexion.createStatement();
+			ResultSet tabla = instruccion.executeQuery("Select * from prendas_logistica;");
+			while(tabla.next()){ 
+			Object[] fila = new Object[7];
+                fila[0] = tabla.getString(1);
+                fila[1] = tabla.getString(2);
+                fila[2] = tabla.getString(3);
+                fila[3] = tabla.getString(4);
+                fila[4] = tabla.getString(5);
+                fila[5] = tabla.getString(6);
+                fila[6] = tabla.getString(7); 
+                modelo.addRow(fila); 
+			}
+			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
+			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
+	}
+	public void grabar(){
+				String codigo = text1.getText(); 
+				String nombre = text2.getText();
+				String descri = text3.getText();
+				String color = text4.getText();
+				String depto = text5.getText(); 
+				String exist = text6.getText();
+				String precio = text7.getText();  
+		
+			PreparedStatement stmt = null;
+    	try{
+    		Class.forName("com.mysql.jdbc.Driver");
+    		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+    		stmt = conexion.prepareStatement("INSERT INTO prendas_logistica VALUES(?,?,?,?,?,?,?)");
+    		stmt.setString(1,codigo);
+		  	stmt.setString(2,nombre);
+		  	stmt.setString(3,descri);
+		  	stmt.setString(4,color);
+		  	stmt.setString(5,depto);
+		  	stmt.setString(6,exist);
+		  	stmt.setString(7,precio);
+    		int retorno = stmt.executeUpdate();
+    		if(retorno == 1){JOptionPane.showMessageDialog(null,"Registro dado de alta");}
+    		if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso la alta");}
+    	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
+    		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
+    		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
+    		//grabalog(datos,nombres);
+			
+			limpiar();
+	}
+	public void actionPerformed(ActionEvent evt){
+		if(evt.getSource() == btn1)
+		{
+			limpiar();
+		}
+		if(evt.getSource() == btn2)
+		{
+			grabar();
+			llena();
+		}
 	}
 	public static void main(String[] args) {
 		Logistic l = new Logistic();
