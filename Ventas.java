@@ -2,7 +2,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-public class Ventas {
+public class Ventas implements ActionListener {
 	JFrame f;
 	JLabel l1,l2,l3,l4,l5,l6,l7;
 	JTextField text1,text2,text3,text4,text5,text6,text7;
@@ -74,8 +74,85 @@ public class Ventas {
     	l7.setBounds	 (340,275,100,20);
     	text7.setBounds	 (390,275, 60,20);
  		btn3.setBounds	 (330,330,130,50);
+ 		btn1.addActionListener(this);
+ 		btn2.addActionListener(this);
+    	btn3.addActionListener(this);
+    
     	f.setVisible(true);
     	f.setBounds		 (200,200,560,450);
+    }
+    public void llenaTabla1(){
+			try{ Class.forName("com.mysql.jdbc.Driver");
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+			Statement instruccion = conexion.createStatement();
+			ResultSet tabla = instruccion.executeQuery("Select * from ventas_sucursal1 where idcuenta="+text1.getText()+";");
+			while(tabla.next()){ 
+			Object[] fila = new Object[4];
+                fila[0] = tabla.getString(1);
+                fila[1] = tabla.getString(2);
+                fila[2] = tabla.getString(3);
+                fila[3] = tabla.getString(4); 
+                modelo.addRow(fila); 
+			}
+			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
+			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
+	}
+    public void insertar_cuenta(){
+		PreparedStatement stmt = null;
+    	try{
+    		Class.forName("com.mysql.jdbc.Driver");
+    		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+    		String query1 = "INSERT INTO cuentas_sucursal1 VALUES("+text1.getText()+",'"+text2.getText()+"')";
+    		stmt = conexion.prepareStatement(query1);
+    		int retorno = stmt.executeUpdate();
+    		if(retorno == 1){JOptionPane.showMessageDialog(null,"Venta exitosa");}
+    		if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de venta");}
+    	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
+    		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
+    		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
+    }
+    public void insertar_venta(){
+		PreparedStatement stmt = null;
+    	try{
+    		Class.forName("com.mysql.jdbc.Driver");
+    		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+    		String query1 = "INSERT INTO ventas_sucursal1 VALUES(NULL,"+text1.getText()+","+text3.getText()+","+text4.getText()+")";
+    		stmt = conexion.prepareStatement(query1);
+    		int retorno = stmt.executeUpdate();
+    		if(retorno == 1){JOptionPane.showMessageDialog(null,"Se agrego una prenda");}
+    		if(retorno == 0){JOptionPane.showMessageDialog(null,"No s epudo agregar una prenda");}
+    	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
+    		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
+    		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
+    }
+    public void eliminar_venta(){
+		PreparedStatement stmt = null;
+    	try{
+    		Class.forName("com.mysql.jdbc.Driver");
+    		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+    		String query1 = "DELETE FROM ventas_sucursal1 WHERE codigo="+text3.getText();
+    		stmt = conexion.prepareStatement(query1);
+    		int retorno = stmt.executeUpdate();
+    		if(retorno == 1){JOptionPane.showMessageDialog(null,"Se removio una prenda");}
+    		if(retorno == 0){JOptionPane.showMessageDialog(null,"No s epudo remover una prenda");}
+    	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
+    		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
+    		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
+    }
+    public void actionPerformed(ActionEvent evt){
+    	if(evt.getSource() == btn1){
+    		//JOptionPane.showMessageDialog(null,"h");
+    		insertar_venta();
+    		llenaTabla1();
+    	}
+    	if(evt.getSource() == btn2){
+    		//JOptionPane.showMessageDialog(null,"h");
+    		eliminar_venta();
+    		llenaTabla1();
+    	}
+    	if(evt.getSource()==btn3){
+    		insertar_cuenta();
+    	}
     }
     public static void main(String args[]){
     	Ventas ve = new Ventas();
