@@ -107,7 +107,7 @@ public class Logistic implements ActionListener {
 	}	
 	public void llena(){
 			
-			modelo.removeRow(0);
+			//modelo.removeRow(0);
 			//modelo.removeRow(0); table.repaint();
 			//table.setModel(modelo);
 			//modelo.fireTableDataChanged();
