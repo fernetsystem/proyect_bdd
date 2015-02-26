@@ -10,6 +10,7 @@ public class Ventas implements ActionListener {
 	JTable table;
 	DefaultTableModel modelo;
 	JScrollPane src;
+	static String existencia="";
     public Ventas() {
     f = new JFrame();
     l1 = new JLabel("No. Cuenta");
@@ -97,13 +98,30 @@ public class Ventas implements ActionListener {
 			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
 			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
 	}
+	public void sacar_ex(){
+		
+		try{ Class.forName("com.mysql.jdbc.Driver");
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+			Statement instruccion = conexion.createStatement();
+			ResultSet tabla = instruccion.executeQuery("Select * from prendas_sucursal1 where codigo="+text3.getText()+";");
+			while(tabla.next()){ 
+                 existencia = tabla.getString(6);
+			     text5.setText(tabla.getString(6));
+			     
+			}
+			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
+			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
+			JOptionPane.showMessageDialog(null,existencia);
+	}	
+	
     public void insertar_cuenta(){
+		
 		PreparedStatement stmt = null;
     	try{
     		Class.forName("com.mysql.jdbc.Driver");
     		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
     		String query1 = "INSERT INTO cuentas_sucursal1 VALUES("+text1.getText()+",'"+text2.getText()+"')";
-    		stmt = conexion.prepareStatement(query1);
+    		stmt = conexion.prepareStatement(query1);	
     		int retorno = stmt.executeUpdate();
     		if(retorno == 1){JOptionPane.showMessageDialog(null,"Venta exitosa");}
     		if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de venta");}
@@ -112,13 +130,23 @@ public class Ventas implements ActionListener {
     		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
     }
     public void insertar_venta(){
-		PreparedStatement stmt = null;
+    	int exi,cant,tot=0;
+    	exi = Integer.parseInt(existencia);
+    	cant = Integer.parseInt(text4.getText());
+    	tot = exi-cant;
+    	String resu = "";
+    	resu = Integer.toString(tot);
+    	JOptionPane.showMessageDialog(null,tot);
+		PreparedStatement stmt = null,stmt2=null;
     	try{
     		Class.forName("com.mysql.jdbc.Driver");
     		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
     		String query1 = "INSERT INTO ventas_sucursal1 VALUES(NULL,"+text1.getText()+","+text3.getText()+","+text4.getText()+")";
     		stmt = conexion.prepareStatement(query1);
     		int retorno = stmt.executeUpdate();
+    		String query2 = "UPDATE prendas_sucursal1 SET existencia="+resu+" where codigo="+text3.getText();
+    		stmt2 = conexion.prepareStatement(query2);
+    		int retorno2 = stmt2.executeUpdate();
     		if(retorno == 1){JOptionPane.showMessageDialog(null,"Se agrego una prenda");}
     		if(retorno == 0){JOptionPane.showMessageDialog(null,"No s epudo agregar una prenda");}
     	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
@@ -142,7 +170,9 @@ public class Ventas implements ActionListener {
     public void actionPerformed(ActionEvent evt){
     	if(evt.getSource() == btn1){
     		//JOptionPane.showMessageDialog(null,"h");
+    		sacar_ex();
     		insertar_venta();
+    	
     		llenaTabla1();
     	}
     	if(evt.getSource() == btn2){
