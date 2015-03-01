@@ -1,6 +1,7 @@
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 public class CompALogis {
 	JFrame f;
 	JLabel l1,l2,l3,l4;
@@ -84,14 +85,31 @@ public class CompALogis {
 		modelo2.addColumn("Codigo");
 		modelo2.addColumn("Nombre");
 		modelo2.addColumn("Cantidad");
-		
+		llenaTabla1();
     	f.setVisible(true);
     	f.setBounds(300,300,680,718);
     }
+     public void llenaTabla1(){
+			try{ Class.forName("com.mysql.jdbc.Driver");
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+			Statement instruccion = conexion.createStatement();
+			ResultSet tabla = instruccion.executeQuery("Select * from prendas_logistica;");
+			while(tabla.next()){ 
+			Object[] fila = new Object[7];
+                fila[0] = tabla.getString(1);
+                fila[1] = tabla.getString(2);
+                fila[2] = tabla.getString(3);
+                fila[3] = tabla.getString(4);
+                fila[4] = tabla.getString(5);
+                fila[5] = tabla.getString(6);
+                fila[6] = tabla.getString(7); 
+                modelo.addRow(fila); 
+			}
+			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
+			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
+	}
     public static void main(String args[]){
     	CompALogis com = new CompALogis();
     	com.use();
-    }
-    
-    
+    }   
 }
