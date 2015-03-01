@@ -154,13 +154,22 @@ public class Ventas implements ActionListener {
     		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
     }
     public void eliminar_venta(){
-		PreparedStatement stmt = null;
+		int exi,cant,tot=0;
+    	exi = Integer.parseInt(existencia);
+    	cant = Integer.parseInt(text4.getText());
+    	tot = exi;
+    	String resu = "";
+    	resu = Integer.toString(tot);
+		PreparedStatement stmt = null,stmt2=null;
     	try{
     		Class.forName("com.mysql.jdbc.Driver");
     		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-    		String query1 = "DELETE FROM ventas_sucursal1 WHERE codigo="+text3.getText();
+    		String query1 = "DELETE FROM ventas_sucursal1 WHERE codigo="+text3.getText()+" and idcuenta="+text1.getText();
     		stmt = conexion.prepareStatement(query1);
     		int retorno = stmt.executeUpdate();
+    		String query2 = "UPDATE prendas_sucursal1 SET existencia="+resu+" where codigo="+text3.getText();
+    		stmt2 = conexion.prepareStatement(query2);
+    		int retorno2 = stmt2.executeUpdate();
     		if(retorno == 1){JOptionPane.showMessageDialog(null,"Se removio una prenda");}
     		if(retorno == 0){JOptionPane.showMessageDialog(null,"No s epudo remover una prenda");}
     	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
