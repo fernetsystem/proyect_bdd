@@ -26,11 +26,11 @@ public class Logistic implements ActionListener {
 		lb6 = new JLabel("Existencia");		text6 = new JTextField(20);
 		lb7 = new JLabel("Precio");			text7 = new JTextField(20);
 		lb8 = new JLabel("Buscar");			text8 = new JTextField(20);
-		Icon icono1 = new ImageIcon(getClass().getResource("icono1.png"));
-		Icon icono2 = new ImageIcon(getClass().getResource("icono2.png"));
+		Icon icono1 = new ImageIcon(getClass().getResource("ic0.png"));
+		Icon icono2 = new ImageIcon(getClass().getResource("ic4.png"));
 		Icon icono3 = new ImageIcon(getClass().getResource("icono3.png"));
-		Icon icono4 = new ImageIcon(getClass().getResource("icono4.png"));
-		Icon icono5 = new ImageIcon(getClass().getResource("icono5.png"));
+		Icon icono4 = new ImageIcon(getClass().getResource("ic2.png"));
+		Icon icono5 = new ImageIcon(getClass().getResource("ic9.png"));
 		Icon icono6 = new ImageIcon(getClass().getResource("icono6.png"));
 		btn1 = new JButton("Limpiar",icono1);
 		btn2 = new JButton("Agregar",icono2);
@@ -46,7 +46,7 @@ public class Logistic implements ActionListener {
 			};
 		table = new JTable(modelo);
 		src = new JScrollPane();
-	    back = new JLabel(new ImageIcon("b.jpg"));
+	    back = new JLabel(new ImageIcon("003.jpg"));
 	}
 	public void usar(){
 		f.add(back);
@@ -73,11 +73,12 @@ public class Logistic implements ActionListener {
 		lb5.setBounds(10,140,100,20); text5.setBounds(100,140,200,20);
 		lb6.setBounds(10,170,100,20); text6.setBounds(100,170,200,20);
 		lb7.setBounds(10,200,100,20); text7.setBounds(100,200,200,20);
-		btn1.setBounds(20,240,130,35);
-		btn2.setBounds(155,240,130,35);
-		btn3.setBounds(290,240,130,35);
-		btn4.setBounds(425,240,130,35);
-		lb8.setBounds(20,300,100,20); text8.setBounds(80,300,200,20); btn5.setBounds(290,290,100,35);
+		btn1.setBounds(20,240,130,35);	btn1.setBackground(new Color(111,135,143));		btn1.setForeground(Color.WHITE);
+		btn2.setBounds(155,240,130,35);	btn2.setBackground(new Color(111,135,143));		btn2.setForeground(Color.WHITE);
+		btn3.setBounds(290,240,130,35);	btn3.setBackground(new Color(111,135,143));		btn3.setForeground(Color.WHITE);
+		btn4.setBounds(425,240,130,35);	btn4.setBackground(new Color(111,135,143));		btn4.setForeground(Color.WHITE);
+		lb8.setBounds(20,300,100,20); text8.setBounds(80,300,200,20); 
+		btn5.setBounds(290,290,80,35);	btn5.setBackground(new Color(255,144,0));		
 		src.setViewportView(table);
 		back.add(src);
 		src.setBounds(10,340,600,340);
@@ -156,10 +157,23 @@ public class Logistic implements ActionListener {
     	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
     		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
     		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
-    		//grabalog(datos,nombres);
-			
 			limpiar();
 	}
+	public void eliminar(){
+    	String id = text1.getText(); 
+    	PreparedStatement stmt = null;
+    	try{
+    		Class.forName("com.mysql.jdbc.Driver");
+    		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+    		stmt = conexion.prepareStatement("delete from prendas_logistica where codigo=?;");
+    		stmt.setString(1,id);
+    		int retorno = stmt.executeUpdate();
+    		if(retorno == 1){JOptionPane.showMessageDialog(null,"Borrado con exito");}
+    		if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso en el borrado");}
+    	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
+    		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
+    		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
+    }
 	public void actionPerformed(ActionEvent evt){
 		if(evt.getSource() == btn1)
 		{
@@ -168,6 +182,10 @@ public class Logistic implements ActionListener {
 		if(evt.getSource() == btn2)
 		{
 			grabar();
+			llena();
+		}
+		if(evt.getSource() == btn4){
+			eliminar();
 			llena();
 		}
 	}
