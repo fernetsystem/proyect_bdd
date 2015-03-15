@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.awt.event.*;
+import net.proteanit.sql.DbUtils;
+
 public class Logistic implements ActionListener {
 	JFrame f;
 	JLabel lb1,lb2,lb3,lb4,lb5,lb6,lb7,lb8;
@@ -105,8 +107,21 @@ public class Logistic implements ActionListener {
 			text5.setText("");
 			text6.setText("");
 			text7.setText("");
-	}	
+	}
 	public void llena(){
+			try{ Class.forName("com.mysql.jdbc.Driver");
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
+			String query="Select * from prendas_logistica";
+			PreparedStatement pst = conexion.prepareStatement(query);
+			ResultSet rs =  pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+			
+			pst.close();
+			rs.close();
+			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
+			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
+	}	
+	/*public void llena(){
 			
 			//modelo.removeRow(0);
 			//modelo.removeRow(0); table.repaint();
@@ -124,12 +139,14 @@ public class Logistic implements ActionListener {
                 fila[3] = tabla.getString(4);
                 fila[4] = tabla.getString(5);
                 fila[5] = tabla.getString(6);
-                fila[6] = tabla.getString(7); 
+                fila[6] = tabla.getString(7);
+                
+                //modelo.removeRow() 
                 modelo.addRow(fila); 
 			}
 			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
 			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
-	}
+	}*/
 	public void grabar(){
 				String codigo = text1.getText(); 
 				String nombre = text2.getText();

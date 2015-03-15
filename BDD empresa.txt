@@ -1,0 +1,61 @@
+CREATE TABLE prendas_logistica(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float);
+/*SUSUCRSAL A LOGISTICA*/
+CREATE TABLE facturas(
+idfactura int primary key,
+idsucursal int,
+fecha varchar(12),
+estado varchar(20));
+
+CREATE TABLE pedidos(
+idpedido int primary key,
+idfactura int,
+codigo int,
+unidades int);
+
+/*SUSUCRSAL Al CLIENTE*/
+/*sucursal 1*/
+CREATE TABLE prendas_sucursal1(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float);
+
+CREATE TABLE cuentas_sucursal1(
+idcuenta int primary key,
+fecha varchar(12));
+
+CREATE TABLE ventas_sucursal1(
+idventa int primary key  auto_increment,
+idcuenta int,
+codigo int,
+unidades int);
+
+/*sucursal 2*/
+CREATE TABLE prendas_sucursal2(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float);
+
+CREATE TABLE cuentas_sucursal2(
+idcuenta int primary key,
+fecha varchar(12));
+
+CREATE TABLE ventas_sucursal2(
+idventa int primary key  auto_increment,
+idcuenta int,
+codigo int,
+unidades int);

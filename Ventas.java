@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import net.proteanit.sql.DbUtils;
 public class Ventas implements ActionListener {
 	JFrame f;
 	JLabel l1,l2,l3,l4,l5,l6,l7,bak;
@@ -107,16 +108,12 @@ public class Ventas implements ActionListener {
     public void llenaTabla1(){
 			try{ Class.forName("com.mysql.jdbc.Driver");
 			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-			Statement instruccion = conexion.createStatement();
-			ResultSet tabla = instruccion.executeQuery("Select * from ventas_sucursal1 where idcuenta="+text1.getText()+";");
-			while(tabla.next()){ 
-			Object[] fila = new Object[4];
-                fila[0] = tabla.getString(1);
-                fila[1] = tabla.getString(2);
-                fila[2] = tabla.getString(3);
-                fila[3] = tabla.getString(4); 
-                modelo.addRow(fila); 
-			}
+			String query="Select * from ventas_sucursal1 where idcuenta="+text1.getText()+";";
+			PreparedStatement pst = conexion.prepareStatement(query);
+			ResultSet rs =  pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+			pst.close();
+			rs.close();
 			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
 			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
 	}
