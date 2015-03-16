@@ -83,9 +83,6 @@ public class CompALogis extends Connect implements ActionListener{
 		src2.setViewportView(table2);
 		f.add(src2);
 		src2.setBounds(35,410,300,250);
-		modelo2.addColumn("Codigo");
-		modelo2.addColumn("Nombre");
-		modelo2.addColumn("Cantidad");
 		llena();
 		btn1.addActionListener(this);
 		btn2.addActionListener(this);
