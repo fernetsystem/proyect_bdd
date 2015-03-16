@@ -8,13 +8,13 @@ existencia int,
 precio float);
 /*SUSUCRSAL A LOGISTICA*/
 CREATE TABLE facturas(
-idfactura int primary key,
+idfactura int primary key auto_increment,
 idsucursal int,
 fecha varchar(12),
 estado varchar(20));
 
 CREATE TABLE pedidos(
-idpedido int primary key,
+idpedido int primary key auto_increment,
 idfactura int,
 codigo int,
 unidades int);
@@ -59,3 +59,5 @@ idventa int primary key  auto_increment,
 idcuenta int,
 codigo int,
 unidades int);
+
+ALTER TABLE `nombretabla` CHANGE `campoid` `campoid` INT( 11 ) NOT NULL AUTO_INCREMENT
