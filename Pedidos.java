@@ -6,7 +6,7 @@ import java.sql.*;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import net.proteanit.sql.DbUtils;
-public class Pedidos extends Connect implements ActionListener{
+public class Pedidos extends Connect implements ItemListener,ActionListener{
 	public JFrame f;
 	JLabel lb1,lb2;
 	JButton btn1,btn2,btn3;
@@ -42,7 +42,6 @@ public class Pedidos extends Connect implements ActionListener{
 			};
 		table2 = new JTable(modelo2);
 		src2 = new JScrollPane();
-    	usar();
     }
     public void use(){
 	    f.setLayout(null);
@@ -55,25 +54,26 @@ public class Pedidos extends Connect implements ActionListener{
 		f.add(lb2);
 		f.add(text1);
 		f.add(btn1);
-		cmb1.addItem("Sucursal1");
-		cmb1.addItem("Sucursal2");
+		cmb1.addItem("1");
+		cmb1.addItem("2");
 		lb1.setBounds(20,20,80,15);
-		cmb1.setBounds(90,18,120,20);
+		cmb1.setBounds(90,18,60,20);
 		src.setBounds(20,50,300,150);
 		lb2.setBounds(20,230,80,15);
 		text1.setBounds(90,230,60,20);
 		btn1.setBounds(170,230,100,20);
-		src2.setBounds(20,260,300,150);
-		llena();
-		llena2();
-//		f.setJMenuBar(mb);
-    	f.setVisible(true);
+		src2.setBounds(20,260,300,100);
+		llena("1 and 2");
+		//llena2();
+		btn1.addActionListener(this);
+		cmb1.addItemListener(this);
+		f.setVisible(true);
     	f.setSize(510,540);
     	f.setLocation(500,300);
     }
-	public void llena(){ 
+	public void llena(String selecionado){
 	try{
-		String query="Select * from facturas";
+		String query="Select * from facturas where idsucursal="+selecionado;
   		stmt =conexion.prepareStatement(query);
   		tabla=stmt.executeQuery();
   		table.setModel(DbUtils.resultSetToTableModel(tabla));	
@@ -81,18 +81,22 @@ public class Pedidos extends Connect implements ActionListener{
 	}
 	public void llena2(){ 
 	try{
-		String query="Select * from pedidos";
+		String query="select idfactura,idpedido,pedi.codigo,nombre,unidades from pedidos pedi join prendas_logistica on pedi.codigo=prendas_logistica.codigo where idfactura="+text1.getText();
   		stmt =conexion.prepareStatement(query);
   		tabla=stmt.executeQuery();
   		table2.setModel(DbUtils.resultSetToTableModel(tabla));	
-		}catch(SQLException e){System.out.println(e);	}
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);	}
 	} 
-    public void actionPerformed(ActionEvent e){
-   
-    if(e.getSource()==mi11){ 	f.setVisible(false);	Logistic l = new Logistic();l.usar();}
-    if(e.getSource()==mi21){  }
-    if(e.getSource()==mi31){  }
-    if(e.getSource()==mi32){  }
+	public void actionPerformed(ActionEvent evt){
+		if(evt.getSource()==btn1){
+			llena2();
+		}
+	}
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource()==cmb1) {
+            String seleccionado=(String)cmb1.getSelectedItem();
+            llena(seleccionado);
+        }
     }
     public static void main(String[] args) {
     	Pedidos p = new Pedidos();
