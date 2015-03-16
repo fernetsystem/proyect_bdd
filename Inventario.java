@@ -2,8 +2,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-
-public class Inventario {
+import net.proteanit.sql.DbUtils;
+public class Inventario extends Connect implements ActionListener{
 	JFrame f;
 	JLabel l1;
 	JTextField text1;
@@ -13,6 +13,7 @@ public class Inventario {
 	JScrollPane src;
 	JLabel back;
     public Inventario() {
+    super("127.0.0.1","ekta","root","w9w9dorotea");
     f = new JFrame();
     l1 = new JLabel("Buscar");
     text1 = new JTextField();
@@ -44,28 +45,32 @@ public class Inventario {
 		modelo.addColumn("Depto");
 		modelo.addColumn("Cantidad");
 		modelo.addColumn("Precio");
-		llenaTabla1();
+		llena();
+		btn1.addActionListener(this);
 		f.setVisible(true);
     	f.setBounds(300,300,680,400);
     }
-    public void llenaTabla1(){
-			try{ Class.forName("com.mysql.jdbc.Driver");
-			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-			Statement instruccion = conexion.createStatement();
-			ResultSet tabla = instruccion.executeQuery("Select * from prendas_sucursal1;");
-			while(tabla.next()){ 
-			Object[] fila = new Object[7];
-                fila[0] = tabla.getString(1);
-                fila[1] = tabla.getString(2);
-                fila[2] = tabla.getString(3);
-                fila[3] = tabla.getString(4);
-                fila[4] = tabla.getString(5);
-                fila[5] = tabla.getString(6);
-                fila[6] = tabla.getString(7); 
-                modelo.addRow(fila); 
-			}
-			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
-			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
+    public void busca(){ 
+	String palabra = text1.getText();
+	try{
+		String query="Select * from prendas_sucursal1 where codigo like '%"+palabra+"%' or nombre like '%"+palabra+"%' or descripcion like '%"+palabra+"%' or color like '%"+palabra+"%' or depto like '%"+palabra+"%' or existencia like '%"+palabra+"%' or precio like '%"+palabra+"%'"; 
+  		stmt =conexion.prepareStatement(query);
+  		tabla=stmt.executeQuery();
+  		table.setModel(DbUtils.resultSetToTableModel(tabla));	
+		}catch(SQLException e){System.out.println(e);	}
+	}
+    public void llena(){ 
+	try{
+		String query="Select * from prendas_sucursal1";
+  		stmt =conexion.prepareStatement(query);
+  		tabla=stmt.executeQuery();
+  		table.setModel(DbUtils.resultSetToTableModel(tabla));	
+		}catch(SQLException e){System.out.println(e);	}
+	}
+	public void actionPerformed(ActionEvent evt){
+		if(evt.getSource()==btn1){
+			busca();
+		}
 	}
     public static void main(String args[]){
     	Inventario ive = new Inventario();
