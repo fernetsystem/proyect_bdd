@@ -1,0 +1,21 @@
+DELIMITER //;
+CREATE TRIGGER TRIGGER1_VENTAS_S1 AFTER INSERT ON ventas_sucursal1
+FOR EACH ROW
+BEGIN 
+	UPDATE prendas_sucursal1 SET
+	existencia = existencia - NEW.unidades
+	WHERE codigo = NEW.codigo;
+END;
+//;
+DELIMITER ;
+
+DELIMITER //;
+CREATE TRIGGER TRIGGER2_VENTAS_S1 AFTER DELETE ON ventas_sucursal1
+FOR EACH ROW
+BEGIN
+	UPDATE prendas_sucursal1 SET
+	existencia = existencia + OLD.unidades
+	WHERE codigo = OLD.codigo;
+END;
+//;
+DELIMITER ;
