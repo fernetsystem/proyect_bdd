@@ -6,18 +6,19 @@ import java.sql.*;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import net.proteanit.sql.DbUtils;
-public class Ventas implements ActionListener {
+public class Ventas extends Connect implements ActionListener {
 	JFrame f;
 	JLabel l1,l2,l3,l4,l5,l6,l7,bak;
 	JTextField text1,text2,text3,text4,text5,text6,text7;
 	Icon icono1,icono2,icono3,icono4,icono5,icono6;
-	JButton btn1,btn2,btn3;
+	JButton btn1,btn2,btn3,btn4;
 	JComboBox cmb1;
 	JTable table;
 	DefaultTableModel modelo;
 	JScrollPane src;
 	static String existencia="";
     public Ventas() {
+    super("127.0.0.1","ekta","root","w9w9dorotea");
     f = new JFrame();
     l1 = new JLabel("No. Cuenta");
     l2 = new JLabel(new ImageIcon("ic8.png"));
@@ -40,6 +41,7 @@ public class Ventas implements ActionListener {
     btn1 = new JButton(icono1);	btn1.setBackground(new Color(111,135,143));		
     btn2 = new JButton(icono2);	btn2.setBackground(new Color(111,135,143));		
     btn3 = new JButton("Realizar venta",icono3); btn3.setBackground(new Color(111,135,143));		btn3.setForeground(Color.WHITE);	
+    btn4 = new JButton("Cancelar venta",icono2); btn4.setBackground(new Color(111,135,143));		btn4.setForeground(Color.WHITE);	
     cmb1 = new JComboBox();	cmb1.setBackground(new Color(255,255,255));//		cmb1.setForeground(Color.WHITE);
     modelo = new DefaultTableModel() {
 	   		@Override
@@ -64,6 +66,7 @@ public class Ventas implements ActionListener {
    		bak.add(btn1);    	
    		bak.add(btn2);
    		bak.add(btn3);
+   		bak.add(btn4);
    		bak.add(cmb1);
     	l1.setBounds	  (	18,	55,100,20);
     	text1.setBounds	  (	84,	55,100,20);
@@ -88,124 +91,93 @@ public class Ventas implements ActionListener {
     	l7.setBounds	 (340,275,100,20);
     	text7.setBounds	 (390,275, 60,20);
  		btn3.setBounds	 (330,330,160,50);
+ 		btn4.setBounds	 (330,380,160,50);
  		btn1.addActionListener(this);
  		btn2.addActionListener(this);
     	btn3.addActionListener(this);
+    	btn4.addActionListener(this);
 		llena();    
     	f.setVisible(true);
     	f.setBounds		 (200,200,560,450);
     }
-    public void llena(){
-			try{ Class.forName("com.mysql.jdbc.Driver");
-			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-			Statement instruccion = conexion.createStatement();
-			ResultSet tabla = instruccion.executeQuery("Select * from prendas_sucursal1;");
-			while(tabla.next()){ cmb1.addItem(tabla.getString(1));}
-			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
-			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
-		
+    public void llena(){ 
+	try{
+		String query="Select * from prendas_sucursal1";
+  		stmt =conexion.prepareStatement(query);
+  		tabla=stmt.executeQuery();
+  		while(tabla.next()){ cmb1.addItem(tabla.getString(1));}
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
 	}
-    public void llenaTabla1(){
-			try{ Class.forName("com.mysql.jdbc.Driver");
-			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-			String query="Select * from ventas_sucursal1 where idcuenta="+text1.getText()+";";
-			PreparedStatement pst = conexion.prepareStatement(query);
-			ResultSet rs =  pst.executeQuery();
-			table.setModel(DbUtils.resultSetToTableModel(rs));
-			pst.close();
-			rs.close();
-			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
-			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
+	public void llenaTabla1(){ 
+	try{
+		String query="select v.codigo,nombre,precio as precio_unitario,unidades,unidades*precio as importe from ventas_sucursal1 v join prendas_sucursal1 pre on v.codigo=pre.codigo where idcuenta="+text1.getText();
+    	stmt =conexion.prepareStatement(query);
+  		tabla=stmt.executeQuery();
+  		table.setModel(DbUtils.resultSetToTableModel(tabla));	
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
 	}
-	public void sacar_ex(){
-		
-		try{ Class.forName("com.mysql.jdbc.Driver");
-			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-			Statement instruccion = conexion.createStatement();
-			ResultSet tabla = instruccion.executeQuery("Select * from prendas_sucursal1 where codigo="+cmb1.getSelectedItem()+";");
-			while(tabla.next()){ 
-                 existencia = tabla.getString(6);		     
-			}
-			} catch(ClassNotFoundException e) { JOptionPane.showMessageDialog(null,e);}
-			catch(SQLException e) { System.out.println(e);JOptionPane.showMessageDialog(null,e);}
-	}	
-	
-    public void insertar_cuenta(){
-		
-		PreparedStatement stmt = null;
-    	try{
-    		Class.forName("com.mysql.jdbc.Driver");
-    		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-    		String query1 = "INSERT INTO cuentas_sucursal1 VALUES("+text1.getText()+",'"+text2.getText()+"')";
-    		stmt = conexion.prepareStatement(query1);	
-    		int retorno = stmt.executeUpdate();
-    		if(retorno == 1){JOptionPane.showMessageDialog(null,"Venta exitosa");}
-    		if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de venta");}
-    	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
-    		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
-    		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
-    }
-    public void insertar_venta(){
-    	int exi,cant,tot=0;
-    	exi = Integer.parseInt(existencia);
-    	cant = Integer.parseInt(text4.getText());
-    	tot = exi-cant;
-    	String resu = "";
-    	resu = Integer.toString(tot);
-    	PreparedStatement stmt = null,stmt2=null;
-    	try{
-    		Class.forName("com.mysql.jdbc.Driver");
-    		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-    		String query1 = "INSERT INTO ventas_sucursal1 VALUES(NULL,"+text1.getText()+","+cmb1.getSelectedItem() +","+text4.getText()+")";
-    		stmt = conexion.prepareStatement(query1);
-    		int retorno = stmt.executeUpdate();
-    		String query2 = "UPDATE prendas_sucursal1 SET existencia="+resu+" where codigo="+cmb1.getSelectedItem();
-    		stmt2 = conexion.prepareStatement(query2);
-    		int retorno2 = stmt2.executeUpdate();
-    		if(retorno == 1){JOptionPane.showMessageDialog(null,"Se agrego una prenda");}
-    		if(retorno == 0){JOptionPane.showMessageDialog(null,"No s epudo agregar una prenda");}
-    	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
-    		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
-    		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
-    }
-    public void eliminar_venta(){
-		int exi,cant,tot=0;
-    	exi = Integer.parseInt(existencia);
-    	cant = Integer.parseInt(text4.getText());
-    	tot = exi;
-    	String resu = "";
-    	resu = Integer.toString(tot);
-		PreparedStatement stmt = null,stmt2=null;
-    	try{
-    		Class.forName("com.mysql.jdbc.Driver");
-    		Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/ekta?user=root&password=w9w9dorotea");
-    		String query1 = "DELETE FROM ventas_sucursal1 WHERE codigo="+cmb1.getSelectedItem()+" and idcuenta="+text1.getText();
-    		stmt = conexion.prepareStatement(query1);
-    		int retorno = stmt.executeUpdate();
-    		String query2 = "UPDATE prendas_sucursal1 SET existencia="+resu+" where codigo="+cmb1.getSelectedItem();
-    		stmt2 = conexion.prepareStatement(query2);
-    		int retorno2 = stmt2.executeUpdate();
-    		if(retorno == 1){JOptionPane.showMessageDialog(null,"Se removio una prenda");}
-    		if(retorno == 0){JOptionPane.showMessageDialog(null,"No s epudo remover una prenda");}
-    	}catch(ClassNotFoundException e){JOptionPane.showMessageDialog(null,e);}
-    		catch(SQLException e){ JOptionPane.showMessageDialog(null,e);}
-    		catch(Exception e){JOptionPane.showMessageDialog(null,e);}
-    }
+	public void cancelarCuenta(){ 
+	try{
+		String query="delete from cuentas_sucursal1 where idcuenta="+text1.getText();
+  		stmt =conexion.prepareStatement(query);
+  		int retorno = stmt.executeUpdate();
+    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Fac exitosa");}
+    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Fac");}
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
+	}
+	public void cancelarVentas(){ 
+	try{
+		String query="delete from ventas_sucursal1 where idcuenta="+text1.getText();
+  		stmt =conexion.prepareStatement(query);
+  		int retorno = stmt.executeUpdate();
+    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Fac exitosa");}
+    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Fac");}
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
+	}
+	public void insertar_cuenta(){ 
+	try{
+		String query="INSERT INTO cuentas_sucursal1 VALUES("+text1.getText()+",'"+text2.getText()+"')";
+  		stmt =conexion.prepareStatement(query);
+  		int retorno = stmt.executeUpdate();
+    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Ped exitosa");}
+    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Pedi");}
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
+	}
+	public void insertar_venta(){ 
+	try{
+		String query = "INSERT INTO ventas_sucursal1 VALUES(NULL,"+text1.getText()+","+cmb1.getSelectedItem() +","+text4.getText()+")";
+    	stmt =conexion.prepareStatement(query);
+  		int retorno = stmt.executeUpdate();
+    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Ped exitosa");}
+    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Pedi");}
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
+	}
+	public void eliminar_venta(){ 
+	try{
+		String query = "DELETE FROM ventas_sucursal1 WHERE codigo="+cmb1.getSelectedItem()+" and idcuenta="+text1.getText();
+    	stmt =conexion.prepareStatement(query);
+  		int retorno = stmt.executeUpdate();
+    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Ped exitosa");}
+    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Pedi");}
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
+	}
+    
     public void actionPerformed(ActionEvent evt){
     	if(evt.getSource() == btn1){
-    		//JOptionPane.showMessageDialog(null,"h");
-    		sacar_ex();
     		insertar_venta();
-    	
     		llenaTabla1();
     	}
     	if(evt.getSource() == btn2){
-    		//JOptionPane.showMessageDialog(null,"h");
     		eliminar_venta();
     		llenaTabla1();
     	}
     	if(evt.getSource()==btn3){
     		insertar_cuenta();
+    	}
+    	if(evt.getSource()==btn4){
+    		cancelarCuenta();
+    		cancelarVentas();
+    		llenaTabla1();
     	}
     }
     public static void main(String args[]){
