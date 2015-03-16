@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
-public class Connect extends TheMenuS1{
+public class Connect{
 	PreparedStatement stmt = null;
 	Connection conexion = null;
 	ResultSet tabla = null;
