@@ -6,7 +6,7 @@ import java.sql.*;
 import net.proteanit.sql.DbUtils;
 public class CompALogis extends Connect implements ActionListener{
 	JFrame f;
-	JLabel l1,l2,l3,l4;
+	JLabel l1,l2,l3,l4,bak;
 	JTextField text1,text2,text3,text4;
 	JButton btn1,btn2,btn3,btn4,btn5;
 	JTable table,table2;
@@ -15,7 +15,7 @@ public class CompALogis extends Connect implements ActionListener{
 	JLabel back;
     public CompALogis() {
     super("127.0.0.1","ekta","root","w9w9dorotea");
-    f = new JFrame();
+    f = new JFrame("COMPRAR A LOGISTICA");
     l1 = new JLabel("Buscar");
     l2 = new JLabel("No. Factura");
     l3 = new JLabel("Codigo");
@@ -29,6 +29,7 @@ public class CompALogis extends Connect implements ActionListener{
     btn3 = new JButton("Quitar");
     btn4 = new JButton("Realizar Pedidos");
     btn5 = new JButton("Cancelar Pedido");
+    bak = new JLabel(new ImageIcon("B_HH1.png"));
   	modelo = new DefaultTableModel() {
 	   		@Override
 	   		public boolean isCellEditable(int fila, int columna) {
@@ -45,44 +46,43 @@ public class CompALogis extends Connect implements ActionListener{
 			};
 	table2 = new JTable(modelo2);
 	src2 = new JScrollPane();
-	
-	back = new JLabel(new ImageIcon("b.jpg"));
     }
     public void use(){
-    	f.setLayout(null);
-    	f.add(l1);
-    	f.add(text1);
-    	f.add(btn1);
-    	f.add(l2);
-    	f.add(text2);
-    	f.add(l3);
-    	f.add(text3);
-    	f.add(l4);
-    	f.add(text4);
-    	f.add(btn2);
-    	f.add(btn3);
-    	f.add(btn4);
-    	f.add(btn5);	
-    	l1.setBounds(35,55,60,13);
-    	text1.setBounds(82,52,150,20);
-    	btn1.setBounds(235,50,75,20);
-    	l2.setBounds	(35,370,120,13);
-    	text2.setBounds	(105,367,70,20);
-    	l3.setBounds	(200,370,60,13);
-    	text3.setBounds	(245,367,75,20);
-    	l4.setBounds	(340,370,60,13);
-    	text4.setBounds	(400,367,60,20);
-    	btn2.setBounds(355,410,75,45);
-    	btn3.setBounds(433,410,75,45);
-    	btn4.setBounds(355,560,150,20);
-    	btn5.setBounds(355,590,150,20);
+    	f.add(bak);
+    	bak.setLayout(null);
+    	bak.add(l1);
+    	bak.add(text1);
+    	bak.add(btn1);
+    	bak.add(l2);
+    	bak.add(text2);
+    	bak.add(l3);
+    	bak.add(text3);
+    	bak.add(l4);
+    	bak.add(text4);
+    	bak.add(btn2);
+    	bak.add(btn3);
+    	bak.add(btn4);
+    	bak.add(btn5);	
+    	l1.setBounds	(165,85,60,13);
+    	text1.setBounds	(212,82,150,20);
+    	btn1.setBounds	(365,80,75,20);
+    	l2.setBounds	(165,370,120,13);
+    	text2.setBounds	(235,367,70,20);
+    	l3.setBounds	(330,370,60,13);
+    	text3.setBounds	(375,367,75,20);
+    	l4.setBounds	(470,370,60,13);
+    	text4.setBounds	(530,367,60,20);
+    	btn2.setBounds(475,410,75,45);
+    	btn3.setBounds(563,410,75,45);
+    	btn4.setBounds(485,560,150,20);
+    	btn5.setBounds(485,590,150,20);
     	
 	    src.setViewportView(table);
-		f.add(src);
-		src.setBounds(35,90,600,250);
+		bak.add(src);
+		src.setBounds(165,120,600,220);
 		src2.setViewportView(table2);
-		f.add(src2);
-		src2.setBounds(35,410,300,250);
+		bak.add(src2);
+		src2.setBounds(165,410,300,150);
 		llena();
 		btn1.addActionListener(this);
 		btn2.addActionListener(this);
@@ -90,7 +90,7 @@ public class CompALogis extends Connect implements ActionListener{
 		btn4.addActionListener(this);
 		btn5.addActionListener(this);
     	f.setVisible(true);
-    	f.setBounds(300,300,680,718);
+    	f.setBounds(10,10,895,705);
     }
 	public void llena(){ 
 	try{

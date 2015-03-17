@@ -5,7 +5,7 @@ import java.sql.*;
 import net.proteanit.sql.DbUtils;
 public class Inventario extends Connect implements ActionListener{
 	JFrame f;
-	JLabel l1;
+	JLabel l1,bak;
 	JTextField text1;
 	JButton btn1;
 	JTable table;
@@ -18,6 +18,7 @@ public class Inventario extends Connect implements ActionListener{
     l1 = new JLabel("Buscar");
     text1 = new JTextField();
     btn1 = new JButton("Buscar");
+    bak = new JLabel(new ImageIcon("B_NN1.png"));
     modelo = new DefaultTableModel() {
 	   		@Override
 	   		public boolean isCellEditable(int fila, int columna) {
@@ -28,27 +29,21 @@ public class Inventario extends Connect implements ActionListener{
 	src = new JScrollPane();
     }
     public void use(){
-    	f.setLayout(null);
-    	f.add(l1);
-    	f.add(text1);
-    	f.add(btn1);	
-    	l1.setBounds(35,55,60,13);
-    	text1.setBounds(82,52,150,20);
-    	btn1.setBounds(235,50,75,20);
+    	f.add(bak);
+    	bak.setLayout(null);
+    	bak.add(l1);
+    	bak.add(text1);
+    	bak.add(btn1);	
+    	l1.setBounds(235,125,60,13);
+    	text1.setBounds(282,122,150,20);
+    	btn1.setBounds(435,120,75,20);
     	src.setViewportView(table);
-		f.add(src);
-		src.setBounds(35,90,600,250);
-		modelo.addColumn("Codigo");
-		modelo.addColumn("Nombre");
-		modelo.addColumn("Descripcion");
-		modelo.addColumn("Color");
-		modelo.addColumn("Depto");
-		modelo.addColumn("Cantidad");
-		modelo.addColumn("Precio");
+		bak.add(src);
+		src.setBounds(235,180,600,250);
 		llena();
 		btn1.addActionListener(this);
 		f.setVisible(true);
-    	f.setBounds(300,300,680,400);
+    	f.setBounds(200,200,891,700);
     }
     public void busca(){ 
 	String palabra = text1.getText();
