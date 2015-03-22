@@ -11,7 +11,7 @@ public class Ventas extends Connect implements ActionListener {
 	JLabel l1,l2,l3,l4,l5,l6,l7,bak;
 	JTextField text1,text2,text3,text4,text5,text6,text7;
 	Icon icono1,icono2,icono3,icono4,icono5,icono6;
-	JButton btn1,btn2,btn3,btn4;
+	JButton btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
 	JComboBox cmb1;
 	JTable table;
 	DefaultTableModel modelo;
@@ -37,11 +37,23 @@ public class Ventas extends Connect implements ActionListener {
     text7 =new JTextField();
     Icon icono1 = new ImageIcon(getClass().getResource("ic15.png")); //20,70,94
     Icon icono2 = new ImageIcon(getClass().getResource("ic1.png"));  //66,100,114
-    Icon icono3 = new ImageIcon(getClass().getResource("ic33.png"));
+    Icon icono3 = new ImageIcon(getClass().getResource("666.png"));
+    Icon icono4 = new ImageIcon(getClass().getResource("999.png"));
+    Icon icono5 = new ImageIcon(getClass().getResource("7_1.png"));
+    Icon icono6 = new ImageIcon(getClass().getResource("7_2.png"));
+    Icon icono7 = new ImageIcon(getClass().getResource("7_3.png"));
+    Icon icono8 = new ImageIcon(getClass().getResource("1111.png"));
+	Icon icono9 = new ImageIcon(getClass().getResource("1111.png"));
     btn1 = new JButton(icono1);	btn1.setBackground(new Color(111,135,143));		
     btn2 = new JButton(icono2);	btn2.setBackground(new Color(111,135,143));		
     btn3 = new JButton("Realizar venta",icono3); btn3.setBackground(new Color(111,135,143));		btn3.setForeground(Color.WHITE);	
-    btn4 = new JButton("Cancelar venta",icono2); btn4.setBackground(new Color(111,135,143));		btn4.setForeground(Color.WHITE);	
+    btn4 = new JButton("Cancelar venta",icono4); btn4.setBackground(new Color(111,135,143));		btn4.setForeground(Color.WHITE);	
+    
+    btn5 = new JButton("Inventario",icono5); 		 btn5.setBackground(new Color(111,135,143));		btn5.setForeground(Color.WHITE);	
+    btn6 = new JButton("Solicitar Producto",icono6); btn6.setBackground(new Color(111,135,143));		btn6.setForeground(Color.WHITE);	
+	btn7 = new JButton("Realizar Ventas",icono7); 	 btn7.setBackground(new Color(111,135,143));		btn7.setForeground(Color.WHITE);	
+	btn8 = new JButton("Pedidos",icono8); 		 	 btn8.setBackground(new Color(111,135,143));		btn8.setForeground(Color.WHITE);	
+    btn9 = new JButton("Control de productos",icono9); btn9.setBackground(new Color(111,135,143));		btn9.setForeground(Color.WHITE);		
     cmb1 = new JComboBox();	cmb1.setBackground(new Color(255,255,255));//		cmb1.setForeground(Color.WHITE);
     modelo = new DefaultTableModel() {
 	   		@Override
@@ -67,6 +79,13 @@ public class Ventas extends Connect implements ActionListener {
    		bak.add(btn2);
    		bak.add(btn3);
    		bak.add(btn4);
+   		
+   		bak.add(btn5);
+   		bak.add(btn6);
+   		bak.add(btn7);
+   		bak.add(btn8);
+   		bak.add(btn9);
+   		
    		bak.add(cmb1);
     	l1.setBounds	  (218,105,100,20);
     	text1.setBounds	  (284,105,100,20);
@@ -86,15 +105,22 @@ public class Ventas extends Connect implements ActionListener {
     	text6.setBounds	 (590,305, 60,20);
     	l7.setBounds	 (540,325,100,20);
     	text7.setBounds	 (590,325, 60,20);
- 		btn3.setBounds	 (530,380,160,50);
- 		btn4.setBounds	 (530,450,160,50);
+ 		btn3.setBounds	 (388,590,160,50);
+ 		btn4.setBounds	 (576,590,160,50);
+ 		
+ 		btn5.setBounds	 (9,100,160,50);
+ 		btn6.setBounds	 (9,180,160,50);
+ 		btn7.setBounds	 (9,260,160,50);
+ 		btn8.setBounds	 (9,340,160,50);
+ 		btn9.setBounds	 (9,420,160,50);
+ 		
  		btn1.addActionListener(this);
  		btn2.addActionListener(this);
     	btn3.addActionListener(this);
     	btn4.addActionListener(this);
 		llena();    
     	f.setVisible(true);
-    	f.setBounds		 (200,200,891,700);
+    	f.setBounds		 (20,20,891,700);
     }
     public void llena(){ 
 	try{

@@ -9,7 +9,7 @@ import net.proteanit.sql.DbUtils;
 public class Pedidos extends Connect implements ItemListener,ActionListener{
 	public JFrame f;
 	JLabel lb1,lb2,bak;
-	JButton btn1,btn2,btn3;
+	JButton btn1,btn2,btn3,btn4,btn5;
 	JComboBox cmb1;
 	JTextField text1;
 	JTable table,table2;
@@ -22,9 +22,12 @@ public class Pedidos extends Connect implements ItemListener,ActionListener{
     	lb1 = new JLabel("Sucursal");
     	lb2 = new JLabel("No.Factura");
     	text1 = new JTextField();
-    	btn1 = new JButton("Buscar");
+    	Icon icono1 = new ImageIcon(getClass().getResource("ic9.png"));
+		Icon icono5 = new ImageIcon(getClass().getResource("icono6.png"));
+    	btn1 = new JButton(icono1);
     	btn2 = new JButton("Mandar y aceptar");
     	btn3 = new JButton("Cancelar");
+    	btn5 = new JButton("Regresar",icono5);
    	    cmb1 = new JComboBox();	cmb1.setBackground(new Color(255,255,255));//		cmb1.setForeground(Color.WHITE);
     	bak = new JLabel(new ImageIcon("B_NN1.png"));
     	modelo = new DefaultTableModel() {
@@ -56,21 +59,25 @@ public class Pedidos extends Connect implements ItemListener,ActionListener{
 		bak.add(lb2);
 		bak.add(text1);
 		bak.add(btn1);
+		bak.add(btn5);
 		cmb1.addItem("1");
 		cmb1.addItem("2");
 		lb1.setBounds(220,120,80,15);
 		cmb1.setBounds(290,118,60,20);
 		src.setBounds(220,150,300,150);
-		lb2.setBounds(220,330,80,15);
-		text1.setBounds(290,330,60,20);
-		btn1.setBounds(370,330,100,20);
-		src2.setBounds(220,360,500,100);
+		lb2.setBounds(220,335,80,15);
+		text1.setBounds(290,335,60,20);
+		btn1.setBounds(370,330,80,35);	btn1.setBackground(new Color(255,144,0));		
+		btn5.setBounds(720,590,130,48);	btn5.setBackground(new Color(24,173,254));		btn5.setForeground(Color.WHITE);
+	
+		src2.setBounds(220,380,500,100);
 		llena("1 and 2");
 		//llena2();
 		btn1.addActionListener(this);
+		btn5.addActionListener(this);
 		cmb1.addItemListener(this);
 		f.setVisible(true);
-		f.setBounds(200,200,891,700);
+		f.setBounds(20,20,891,700);
     }
 	public void llena(String selecionado){
 	try{
@@ -91,6 +98,11 @@ public class Pedidos extends Connect implements ItemListener,ActionListener{
 	public void actionPerformed(ActionEvent evt){
 		if(evt.getSource()==btn1){
 			llena2();
+		}
+		if(evt.getSource()==btn5){
+			f.setVisible(false);
+			MenuLogistic MyMenuL = new MenuLogistic();
+			MyMenuL.use();
 		}
 	}
     public void itemStateChanged(ItemEvent e) {
