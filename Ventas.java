@@ -16,7 +16,7 @@ public class Ventas extends Connect implements ActionListener {
 	JTable table;
 	DefaultTableModel modelo;
 	JScrollPane src;
-	static String existencia="";
+	static String mytotalCad;
     public Ventas() {
     super("127.0.0.1","ekta","root","w9w9dorotea");
     f = new JFrame();
@@ -37,23 +37,24 @@ public class Ventas extends Connect implements ActionListener {
     text7 =new JTextField();
     Icon icono1 = new ImageIcon(getClass().getResource("ic15.png")); //20,70,94
     Icon icono2 = new ImageIcon(getClass().getResource("ic1.png"));  //66,100,114
-    Icon icono3 = new ImageIcon(getClass().getResource("666.png"));
-    Icon icono4 = new ImageIcon(getClass().getResource("999.png"));
+    Icon icono3 = new ImageIcon(getClass().getResource("4444.png"));
+    Icon icono4 = new ImageIcon(getClass().getResource("6666.png"));
     Icon icono5 = new ImageIcon(getClass().getResource("7_1.png"));
-    Icon icono6 = new ImageIcon(getClass().getResource("7_2.png"));
+    Icon icono6 = new ImageIcon(getClass().getResource("9999.png"));
     Icon icono7 = new ImageIcon(getClass().getResource("7_3.png"));
     Icon icono8 = new ImageIcon(getClass().getResource("1111.png"));
-	Icon icono9 = new ImageIcon(getClass().getResource("1111.png"));
+	Icon icono9 = new ImageIcon(getClass().getResource("icono6.png"));
     btn1 = new JButton(icono1);	btn1.setBackground(new Color(111,135,143));		
     btn2 = new JButton(icono2);	btn2.setBackground(new Color(111,135,143));		
     btn3 = new JButton("Realizar venta",icono3); btn3.setBackground(new Color(111,135,143));		btn3.setForeground(Color.WHITE);	
     btn4 = new JButton("Cancelar venta",icono4); btn4.setBackground(new Color(111,135,143));		btn4.setForeground(Color.WHITE);	
     
     btn5 = new JButton("Inventario",icono5); 		 btn5.setBackground(new Color(111,135,143));		btn5.setForeground(Color.WHITE);	
-    btn6 = new JButton("Solicitar Producto",icono6); btn6.setBackground(new Color(111,135,143));		btn6.setForeground(Color.WHITE);	
-	btn7 = new JButton("Realizar Ventas",icono7); 	 btn7.setBackground(new Color(111,135,143));		btn7.setForeground(Color.WHITE);	
+    btn6 = new JButton("Solicitar",icono6); 		 btn6.setBackground(new Color(111,135,143));		btn6.setForeground(Color.WHITE);	
+	btn7 = new JButton("Vender",icono7); 	 		 btn7.setBackground(new Color(111,135,143));		btn7.setForeground(Color.WHITE);	
 	btn8 = new JButton("Pedidos",icono8); 		 	 btn8.setBackground(new Color(111,135,143));		btn8.setForeground(Color.WHITE);	
-    btn9 = new JButton("Control de productos",icono9); btn9.setBackground(new Color(111,135,143));		btn9.setForeground(Color.WHITE);		
+    btn9 = new JButton("Regresar",icono9);		     btn9.setBackground(new Color(24,173,254));		btn9.setForeground(Color.WHITE);
+	
     cmb1 = new JComboBox();	cmb1.setBackground(new Color(255,255,255));//		cmb1.setForeground(Color.WHITE);
     modelo = new DefaultTableModel() {
 	   		@Override
@@ -82,8 +83,6 @@ public class Ventas extends Connect implements ActionListener {
    		
    		bak.add(btn5);
    		bak.add(btn6);
-   		bak.add(btn7);
-   		bak.add(btn8);
    		bak.add(btn9);
    		
    		bak.add(cmb1);
@@ -105,19 +104,21 @@ public class Ventas extends Connect implements ActionListener {
     	text6.setBounds	 (590,305, 60,20);
     	l7.setBounds	 (540,325,100,20);
     	text7.setBounds	 (590,325, 60,20);
- 		btn3.setBounds	 (388,590,160,50);
- 		btn4.setBounds	 (576,590,160,50);
+ 		btn3.setBounds	 (230,590,160,45);
+ 		btn4.setBounds	 (400,590,160,45);
  		
  		btn5.setBounds	 (9,100,160,50);
- 		btn6.setBounds	 (9,180,160,50);
- 		btn7.setBounds	 (9,260,160,50);
- 		btn8.setBounds	 (9,340,160,50);
- 		btn9.setBounds	 (9,420,160,50);
- 		
+ 		btn6.setBounds	 (9,160,160,50);
+ 		btn9.setBounds	(720,590,130,48);
  		btn1.addActionListener(this);
  		btn2.addActionListener(this);
     	btn3.addActionListener(this);
     	btn4.addActionListener(this);
+    	btn5.addActionListener(this);
+    	btn6.addActionListener(this);
+    	btn9.addActionListener(this);
+    	    text6.addActionListener(this);
+
 		llena();    
     	f.setVisible(true);
     	f.setBounds		 (20,20,891,700);
@@ -183,15 +184,27 @@ public class Ventas extends Connect implements ActionListener {
     	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Pedi");}
 		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
 	}
-    
+   public void SumaTotal(){ 
+	try{
+		String query="select sum(unidades*precio) as Total From ventas_sucursal1 v join prendas_sucursal1 pre on v.codigo=pre.codigo  where idcuenta="+text1.getText();
+  		stmt =conexion.prepareStatement(query);
+  		tabla=stmt.executeQuery();
+  		while(tabla.next()){ 
+  			mytotalCad = tabla.getString(1);
+  			text5.setText(tabla.getString(1));	}
+		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
+	}
+
     public void actionPerformed(ActionEvent evt){
     	if(evt.getSource() == btn1){
     		insertar_venta();
     		llenaTabla1();
+    		SumaTotal();
     	}
     	if(evt.getSource() == btn2){
     		eliminar_venta();
     		llenaTabla1();
+    		SumaTotal();
     	}
     	if(evt.getSource()==btn3){
     		insertar_cuenta();
@@ -200,6 +213,41 @@ public class Ventas extends Connect implements ActionListener {
     		cancelarCuenta();
     		cancelarVentas();
     		llenaTabla1();
+    	}
+    	if(evt.getSource()==btn5){
+    		f.setVisible(false);
+    		Inventario Form1 = new Inventario();
+    		Form1.use();
+    	}
+    	if(evt.getSource()==btn6){
+    		f.setVisible(false);
+    		CompALogis Form2 = new CompALogis();
+    		Form2.use();
+    	}
+    	if(evt.getSource()==btn9){
+			f.setVisible(false);
+			MenuS1 MyMenuS1 = new MenuS1();
+			MyMenuS1.use();
+    	}
+    	if(evt.getSource() == text6){
+    		int mytotal,recibo,cambio;
+    		String cambioCad,reciboCad;
+			String nulo="";
+			if(text6.getText().equals(nulo)){
+			JOptionPane.showMessageDialog(null,"No se ah recibido nada");}
+			else { text7.requestFocusInWindow();
+					reciboCad = text6.getText(); 
+   					mytotal = Integer.parseInt(mytotalCad);
+   					recibo = Integer.parseInt(reciboCad);
+   					if(recibo >= mytotal){
+   						cambio = recibo - mytotal ;
+   						cambioCad = Integer.toString(cambio);
+						text7.setText(cambioCad);
+   					}else{
+   						JOptionPane.showMessageDialog(null,"Dinero insuficiente para la compra");
+   						text6.setText("");
+   					}
+				}
     	}
     }
     public static void main(String args[]){
