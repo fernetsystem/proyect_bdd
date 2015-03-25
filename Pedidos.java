@@ -23,10 +23,12 @@ public class Pedidos extends Connect implements ItemListener,ActionListener{
     	lb2 = new JLabel("No.Factura");
     	text1 = new JTextField();
     	Icon icono1 = new ImageIcon(getClass().getResource("ic9.png"));
-		Icon icono5 = new ImageIcon(getClass().getResource("icono6.png"));
+		Icon icono4 = new ImageIcon(getClass().getResource("999_99.png"));
+		Icon icono5 = new ImageIcon(getClass().getResource("icono6.png"));	
     	btn1 = new JButton(icono1);
     	btn2 = new JButton("Mandar y aceptar");
     	btn3 = new JButton("Cancelar");
+    	btn4 = new JButton("Productos",icono4);
     	btn5 = new JButton("Regresar",icono5);
    	    cmb1 = new JComboBox();	cmb1.setBackground(new Color(255,255,255));//		cmb1.setForeground(Color.WHITE);
     	bak = new JLabel(new ImageIcon("B_NN1.png"));
@@ -59,6 +61,7 @@ public class Pedidos extends Connect implements ItemListener,ActionListener{
 		bak.add(lb2);
 		bak.add(text1);
 		bak.add(btn1);
+		bak.add(btn4);
 		bak.add(btn5);
 		cmb1.addItem("1");
 		cmb1.addItem("2");
@@ -68,12 +71,14 @@ public class Pedidos extends Connect implements ItemListener,ActionListener{
 		lb2.setBounds(220,335,80,15);
 		text1.setBounds(290,335,60,20);
 		btn1.setBounds(370,330,80,35);	btn1.setBackground(new Color(255,144,0));		
+		btn4.setBounds(9,100,160,50);	btn4.setBackground(new Color(111,135,143));		btn4.setForeground(Color.WHITE);	
 		btn5.setBounds(720,590,130,48);	btn5.setBackground(new Color(24,173,254));		btn5.setForeground(Color.WHITE);
 	
 		src2.setBounds(220,380,500,100);
 		llena("1 and 2");
 		//llena2();
 		btn1.addActionListener(this);
+		btn4.addActionListener(this);
 		btn5.addActionListener(this);
 		cmb1.addItemListener(this);
 		f.setVisible(true);
@@ -98,6 +103,11 @@ public class Pedidos extends Connect implements ItemListener,ActionListener{
 	public void actionPerformed(ActionEvent evt){
 		if(evt.getSource()==btn1){
 			llena2();
+		}
+		if(evt.getSource()==btn4){
+			f.setVisible(false);
+    		Logistic Form1 = new Logistic();
+    		Form1.usar();
 		}
 		if(evt.getSource()==btn5){
 			f.setVisible(false);
