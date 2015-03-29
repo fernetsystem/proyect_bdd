@@ -21,7 +21,7 @@ public class Ventas extends Connect implements ActionListener {
     super("127.0.0.1","ekta","root","w9w9dorotea");
     f = new JFrame();
     l1 = new JLabel("No. Cuenta");
-    l2 = new JLabel(new ImageIcon("ic8.png"));
+    //l2 = new JLabel(new ImageIcon("ic8.png"));
     l3 = new JLabel("Codigo");
     l4 = new JLabel("Cantidad");
     l5 = new JLabel("TOTAL");
@@ -29,7 +29,7 @@ public class Ventas extends Connect implements ActionListener {
     l7 = new JLabel("Cambio");
     bak = new JLabel(new ImageIcon("B_NN1.png"));
     text1 =new JTextField();
-    text2 =new JTextField();
+    //text2 =new JTextField();
     text3 =new JTextField();
     text4 =new JTextField();
     text5 =new JTextField();
@@ -69,7 +69,7 @@ public class Ventas extends Connect implements ActionListener {
     	f.add(bak);
     	bak.setLayout(null);
     	bak.add(l1);		bak.add(text1);
-    	bak.add(l2);		bak.add(text2);
+    	//bak.add(l2);		bak.add(text2);
     	bak.add(l3);		bak.add(text3);
     	bak.add(l4);		bak.add(text4);
     	bak.add(l5);		bak.add(text5);
@@ -88,8 +88,8 @@ public class Ventas extends Connect implements ActionListener {
    		bak.add(cmb1);
     	l1.setBounds	  (218,105,100,20);
     	text1.setBounds	  (284,105,100,20);
-    	l2.setBounds	  (576, 90, 50,50);
-    	text2.setBounds	  (627,105,100,20);
+    	//l2.setBounds	  (576, 90, 50,50);
+    	//text2.setBounds	  (627,105,100,20);
     	l3.setBounds	  (220,150, 40,20);
     	cmb1.setBounds    (267,150,100,20);
     	l4.setBounds	  (388,150,100,20);
@@ -98,10 +98,10 @@ public class Ventas extends Connect implements ActionListener {
 		src.setBounds	  (220,185,300,250);
 		btn1.setBounds	 (530,185, 80,50);	
 		btn2.setBounds	 (620,185, 80,50);
-		l5.setBounds	 (540,265,100,20);
-    	text5.setBounds	 (590,265, 60,20);
-    	l6.setBounds	 (540,305,100,20);
-    	text6.setBounds	 (590,305, 60,20);
+		l5.setBounds	 (540,270,100,20);
+    	text5.setBounds	 (590,270, 60,20);
+    	l6.setBounds	 (540,300,100,20);
+    	text6.setBounds	 (590,300, 60,20);
     	l7.setBounds	 (540,325,100,20);
     	text7.setBounds	 (590,325, 60,20);
  		btn3.setBounds	 (230,590,160,45);
@@ -159,7 +159,7 @@ public class Ventas extends Connect implements ActionListener {
 	}
 	public void insertar_cuenta(){ 
 	try{
-		String query="INSERT INTO cuentas_sucursal1 VALUES("+text1.getText()+",'"+text2.getText()+"')";
+		String query="INSERT INTO cuentas_sucursal1 VALUES("+text1.getText()+",localtimestamp())";
   		stmt =conexion.prepareStatement(query);
   		int retorno = stmt.executeUpdate();
     	if(retorno == 1){JOptionPane.showMessageDialog(null,"Ped exitosa");}
@@ -208,6 +208,9 @@ public class Ventas extends Connect implements ActionListener {
     	}
     	if(evt.getSource()==btn3){
     		insertar_cuenta();
+    		f.setVisible(false);
+    		Ventas Form3 = new Ventas();
+    		Form3.use();
     	}
     	if(evt.getSource()==btn4){
     		cancelarCuenta();
@@ -246,6 +249,7 @@ public class Ventas extends Connect implements ActionListener {
    					}else{
    						JOptionPane.showMessageDialog(null,"Dinero insuficiente para la compra");
    						text6.setText("");
+   						text6.requestFocusInWindow();
    					}
 				}
     	}
