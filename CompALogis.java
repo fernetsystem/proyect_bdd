@@ -135,20 +135,20 @@ public class CompALogis extends Connect implements ActionListener{
 	}
 	public void insertar_Facturas(){ 
 	try{
-		String query="insert into facturas values("+text2.getText()+",1,'2015-03-16','NoServido')";
+		String query="insert into facturas values("+text2.getText()+",1,localtimestamp())";
   		stmt =conexion.prepareStatement(query);
   		int retorno = stmt.executeUpdate();
-    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Fac exitosa");}
-    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Fac");}
+    	if(retorno == 1){JOptionPane.showMessageDialog(null,"SOLICITUD DE PRODUCTOS ENVIADA");}
+    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Error al solicitar los pedidos");}
 		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
 	}
 	public void insertar_Pedidos(){ 
 	try{
-		String query="insert into pedidos values(null,"+text2.getText()+","+text3.getText()+","+text4.getText()+")";
+		String query="insert into pedidos values(null,"+text2.getText()+","+text3.getText()+","+text4.getText()+",'EN ESPERA')";
   		stmt =conexion.prepareStatement(query);
   		int retorno = stmt.executeUpdate();
-    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Ped exitosa");}
-    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Pedi");}
+    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Se agrego un pedido a la lista");}
+    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Error al agregar un pedido");}
 		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
 	}
 	public void cancelarFactura(){ 
@@ -156,8 +156,8 @@ public class CompALogis extends Connect implements ActionListener{
 		String query="delete from facturas where idfactura="+text2.getText();
   		stmt =conexion.prepareStatement(query);
   		int retorno = stmt.executeUpdate();
-    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Fac exitosa");}
-    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Fac");}
+    	if(retorno == 1){JOptionPane.showMessageDialog(null,"SE CANCELO EL PEDIDO CORRECTAMENTE");}
+    	if(retorno == 0){/*JOptionPane.showMessageDialog(null,"Ocurrio un error al cancelar el pedido");*/}
 		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
 	}
 	public void cancelarPedidos(){ 
@@ -165,8 +165,8 @@ public class CompALogis extends Connect implements ActionListener{
 		String query="delete from pedidos where idfactura="+text2.getText();
   		stmt =conexion.prepareStatement(query);
   		int retorno = stmt.executeUpdate();
-    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Fac exitosa");}
-    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Fac");}
+    	if(retorno == 1){/*JOptionPane.showMessageDialog(null,"SE CANCELO EL PEDIDO CORRECTAMENTE");*/}
+    	if(retorno == 0){/*JOptionPane.showMessageDialog(null,"Ocurrio un error al cancelar un pedido");*/}
 		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
 	}
 	public void quitar_Pedido(){ 
@@ -174,8 +174,8 @@ public class CompALogis extends Connect implements ActionListener{
 		String query="delete from pedidos where codigo="+text3.getText();
   		stmt =conexion.prepareStatement(query);
   		int retorno = stmt.executeUpdate();
-    	if(retorno == 1){JOptionPane.showMessageDialog(null,"Ped exitosa");}
-    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso de Pedi");}
+    	if(retorno == 1){/*JOptionPane.showMessageDialog(null,"");*/}
+    	if(retorno == 0){JOptionPane.showMessageDialog(null,"Fracaso al quitar el pedidos");}
 		}catch(SQLException e){JOptionPane.showMessageDialog(null,e);}
 	}
     public void actionPerformed(ActionEvent e){
@@ -192,11 +192,18 @@ public class CompALogis extends Connect implements ActionListener{
   		}
   		if(e.getSource()==btn4){
   				insertar_Facturas();
+  				f.setVisible(false);
+				MenuS1 MyMenuS1 = new MenuS1();
+				MyMenuS1.use();
   		}
 		if(e.getSource()==btn5){
   				cancelarPedidos();
   				cancelarFactura();
-  				llena2(); 				
+  				llena2(); 		
+  				text1.setText("");
+    			text2.setText(""); 
+    			text3.setText("");
+    			text4.setText("");
   		}
   		if(e.getSource()==btn6){
     		f.setVisible(false);
