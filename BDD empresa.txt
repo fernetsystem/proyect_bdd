@@ -8,16 +8,17 @@ existencia int,
 precio float);
 /*SUSUCRSAL A LOGISTICA*/
 CREATE TABLE facturas(
-idfactura int primary key auto_increment,
+idfactura int primary key,
 idsucursal int,
-fecha varchar(12),
-estado varchar(20));
+fecha timestamp);
 
 CREATE TABLE pedidos(
 idpedido int primary key auto_increment,
 idfactura int,
 codigo int,
-unidades int);
+unidades int,
+estado varchar(20));
+
 
 /*SUSUCRSAL Al CLIENTE*/
 /*sucursal 1*/
@@ -32,7 +33,7 @@ precio float);
 
 CREATE TABLE cuentas_sucursal1(
 idcuenta int primary key,
-fecha varchar(12));
+fecha timestamp);
 
 CREATE TABLE ventas_sucursal1(
 idventa int primary key  auto_increment,
@@ -52,7 +53,7 @@ precio float);
 
 CREATE TABLE cuentas_sucursal2(
 idcuenta int primary key,
-fecha varchar(12));
+fecha timestamp);
 
 CREATE TABLE ventas_sucursal2(
 idventa int primary key  auto_increment,
