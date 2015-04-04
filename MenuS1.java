@@ -13,7 +13,7 @@ public class MenuS1 extends Connect implements ActionListener {
 	JButton btn5,btn6,btn7,btn8,btn9,btn10;
     public MenuS1() {
     super("127.0.0.1","ekta","root","w9w9dorotea");
-    f = new JFrame();
+    f = new JFrame("MENU SUCURSAL 1");
     bak = new JLabel(new ImageIcon("M_NN3.png"));
     Icon icono5 = new ImageIcon(getClass().getResource("7_1.png"));
     Icon icono6 = new ImageIcon(getClass().getResource("9999.png"));

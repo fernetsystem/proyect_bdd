@@ -19,7 +19,7 @@ public class Logistic extends Connect implements ActionListener {
 	JScrollPane src;
 	JLabel back;
 	public Logistic() {
-		super("127.0.0.1","ekta","root","w9w9dorotea");
+		super("127.0.0.1","directorio","root","w9w9dorotea");
 		f = new JFrame("CONTROL DE PRODUCTOS");
 		lb1 = new JLabel("Codigo");			text1 = new JTextField(20);
 		lb2 = new JLabel("Nombre");			text2 = new JTextField(20);

@@ -15,7 +15,7 @@ public class CompALogis extends Connect implements ActionListener{
 	JLabel back;
     public CompALogis() {
     super("127.0.0.1","ekta","root","w9w9dorotea");
-    f = new JFrame("COMPRAR A LOGISTICA");
+    f = new JFrame("COMPRAR A LOGISTICA SUCURSAL 1");
     l1 = new JLabel("Buscar");
     l2 = new JLabel("No. Factura");
     l3 = new JLabel("Codigo");

@@ -15,7 +15,7 @@ public class Inventario extends Connect implements ActionListener{
 	JLabel back;
     public Inventario() {
     super("127.0.0.1","ekta","root","w9w9dorotea");
-    f = new JFrame();
+    f = new JFrame("INVENTARIO SUCURSAL 1");
     l1 = new JLabel("Buscar");
     text1 = new JTextField();
     Icon icono1 = new ImageIcon(getClass().getResource("ic9.png"));
