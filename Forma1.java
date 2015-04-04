@@ -18,13 +18,13 @@ public class Forma1 extends JPanel implements ActionListener {
   	f = new JFrame();
   	l1 = new JLabel("Archivo");
   	text1 = new JTextField(20);
-    Icon icono_1 = new ImageIcon(getClass().getResource("icono14.png"));
+    Icon icono_1 = new ImageIcon(getClass().getResource("105.png"));
     Icon icono_2 = new ImageIcon(getClass().getResource("icono11.png"));
-    Icon icono_3 = new ImageIcon(getClass().getResource("play.png"));
+    Icon icono_3 = new ImageIcon(getClass().getResource("icono6.png"));
   	btn1 = new JButton(icono_1);
     btn2 = new JButton(icono_2);
     btn3 = new JButton(icono_3);
-    b = new JLabel(new ImageIcon("113.jpg"));
+    b = new JLabel(new ImageIcon("oio.jpg"));
    }
 	public void usar1(){
 		f.add(b);
@@ -68,7 +68,7 @@ public class Forma1 extends JPanel implements ActionListener {
      		Runtime runtime = Runtime.getRuntime();
      		File recupera = new File(String.valueOf(Anombre)+".sql");
      		FileWriter fw = new FileWriter(recupera);
-     		Process proceso = runtime.exec("C:\\Server\\mysql\\bin\\mysqldump --opt --password=w9w9dorotea --user=root --databases log -R ");
+     		Process proceso = runtime.exec("C:\\Server\\mysql\\bin\\mysqldump --opt --password=w9w9dorotea --user=root --databases ekta -R ");
      		InputStreamReader irs = new InputStreamReader(proceso.getInputStream());
      		BufferedReader br = new BufferedReader(irs);
      		while((linea=br.readLine())!=null){
@@ -83,8 +83,6 @@ public class Forma1 extends JPanel implements ActionListener {
      }
      if(e.getSource()==btn3){
      	f.setVisible(false);
-     	MenuEMP mymenu = new MenuEMP();
-     	mymenu.usar();
  
      }
   }
