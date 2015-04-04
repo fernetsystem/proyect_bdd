@@ -1,0 +1,105 @@
+//SERVIDOR
+
+CREATE TABLE prendas_logistica(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float)
+ENGINE=MyISAM;
+
+CREATE TABLE facturas(
+idfactura int primary key,
+idsucursal int,
+fecha timestamp)
+ENGINE=MyISAM;
+
+CREATE TABLE pedidos(
+idpedido int primary key auto_increment,
+idfactura int,
+codigo int,
+unidades int,
+estado varchar(20))
+ENGINE=MyISAM;
+
+
+
+CREATE TABLE prendas_sucursal1(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float)
+ENGINE=MyISAM;
+
+CREATE TABLE cuentas_sucursal1(
+idcuenta int primary key,
+fecha timestamp)
+ENGINE=MyISAM;
+
+CREATE TABLE ventas_sucursal1(
+idventa int primary key  auto_increment,
+idcuenta int,
+codigo int,
+unidades int)
+ENGINE=MyISAM;
+
+
+
+
+CREATE TABLE prendas_sucursal1(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float)
+ENGINE=MyISAM;
+
+CREATE TABLE cuentas_sucursal1(
+idcuenta int primary key,
+fecha timestamp)
+ENGINE=MyISAM;
+
+CREATE TABLE ventas_sucursal1(
+idventa int primary key  auto_increment,
+idcuenta int,
+codigo int,
+unidades int)
+ENGINE=MyISAM;
+
+
+
+
+
+CREATE TABLE prendas_sucursal2(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float)
+ENGINE=MyISAM;
+
+CREATE TABLE cuentas_sucursal2(
+idcuenta int primary key,
+fecha timestamp)
+ENGINE=MyISAM;
+
+CREATE TABLE ventas_sucursal2(
+idventa int primary key  auto_increment,
+idcuenta int,
+codigo int,
+unidades int)
+ENGINE=MyISAM;
+
+GRANT GRANT ALL PRIVILEGES ON directorio.* TO AASC @'192.168.1.74' IDENTIFIED BY '12345';
+GRANT GRANT ALL PRIVILEGES ON directorio.* TO S1 @'192.168.1.esme' IDENTIFIED BY '12345';
+GRANT GRANT ALL PRIVILEGES ON directorio.* TO S2 @'192.168.1.cano' IDENTIFIED BY '12345';
+
