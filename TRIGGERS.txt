@@ -10,12 +10,28 @@ END;
 DELIMITER ;
 
 DELIMITER //;
-CREATE TRIGGER TRIGGER2_VENTAS_S1 AFTER DELETE ON ventas_sucursal1
+CREATE TRIGGER TRIGGER2_VENTAS_S2 AFTER DELETE ON ventas_sucursal2
 FOR EACH ROW
 BEGIN
-	UPDATE prendas_sucursal1 SET
+	UPDATE prendas_sucursal2 SET
 	existencia = existencia + OLD.unidades
 	WHERE codigo = OLD.codigo;
 END;
 //;
 DELIMITER ;
+
+DELIMITER //;
+CREATE TRIGGER TRIGGER3_PEDIDOS_ESTADO_DESCONT_LOGIS AFTER UPDATE ON pedidos
+FOR EACH ROW
+BEGIN
+	UPDATE prendas_logistica SET
+	existencia = existencia - NEW.unidades
+	WHERE codigo = NEW.codigo;
+END;
+//;
+DELIMITER ;
+
+
+	//insert into prendas_sucursal1 values 
+	(300,'fer','gert','beig','h',300,300) 
+	ON DUPLICATE KEY UPDATE existencia=700;
