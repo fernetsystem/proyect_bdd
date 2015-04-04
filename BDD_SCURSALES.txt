@@ -1,0 +1,138 @@
+//SUCURSAL1
+CREATE TABLE prendas_logistica(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160:3306/directorio/prendas_logistica';
+
+CREATE TABLE prendas_sucursal1(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/prendas_sucursal1';
+
+CREATE TABLE facturas(
+idfactura int primary key,
+idsucursal int,
+fecha timestamp)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/facturas';
+
+CREATE TABLE pedidos(
+idpedido int primary key auto_increment,
+idfactura int,
+codigo int,
+unidades int,
+estado varchar(20))
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/pedidos';
+
+CREATE TABLE cuentas_sucursal1(
+idcuenta int primary key,
+fecha timestamp)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/cuentas_sucursal1';
+
+CREATE TABLE ventas_sucursal1(
+idventa int primary key  auto_increment,
+idcuenta int,
+codigo int,
+unidades int)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/ventas_sucursal1';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//_____________________________________________________________-
+//SUCURSAL1
+CREATE TABLE prendas_logistica(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160:3306/directorio/prendas_logistica';
+
+CREATE TABLE prendas_sucursal2(
+codigo int primary key,
+nombre varchar(55),
+descripcion varchar(55),
+color varchar(55),
+depto varchar(55),
+existencia int,
+precio float)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/prendas_sucursal2';
+
+CREATE TABLE facturas(
+idfactura int primary key,
+idsucursal int,
+fecha timestamp)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/facturas';
+
+CREATE TABLE pedidos(
+idpedido int primary key auto_increment,
+idfactura int,
+codigo int,
+unidades int,
+estado varchar(20))
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/pedidos';
+
+CREATE TABLE cuentas_sucursal1(
+idcuenta int primary key,
+fecha timestamp)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/cuentas_sucursal2';
+
+CREATE TABLE ventas_sucursal1(
+idventa int primary key  auto_increment,
+idcuenta int,
+codigo int,
+unidades int)
+ENGINE=FEDERATED
+CONNECTION='mysql://AASC:12345@192.168.1.160/directorio/ventas_sucursal2'2
